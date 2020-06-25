@@ -4,6 +4,7 @@ import math
 from collections import defaultdict
 import setting as st
 import io_worker as iw
+import logging
 
 
 def ndcg(rank_predict, rank_gt, max_ranking=st.EVAL_LIMIT, logbase=2):
@@ -36,7 +37,7 @@ def q_measure(rank_predict, rank_gt, max_ranking=st.EVAL_LIMIT, beta=1.):
     return result
 
 
-def eval_baselines(predict_file, lang=st.LANG_EN, cutoff=st.EVAL_LIMIT):
+def run_eval(predict_file, lang=st.LANG_EN, cutoff=st.EVAL_LIMIT):
     iw.print_status("Lang: %s, Eval %s" % (lang, predict_file))
     lang = lang.lower()
     if lang == st.LANG_EN:
@@ -128,10 +129,14 @@ def eval_baselines(predict_file, lang=st.LANG_EN, cutoff=st.EVAL_LIMIT):
 
 
 if __name__ == "__main__":
-    # eval_baselines(lang="e", predict_file="results/anserini/en-bm25.txt", cutoff=10)
-    # eval_baselines(lang="e", predict_file="results/elastic_search/en-bm25.txt", cutoff=10)
-    # eval_baselines(lang="j", predict_file="results/anserini/ja-bm25.txt", cutoff=10)
-    eval_baselines(lang="j", predict_file="results/elastic_search/ja-bm25.txt", cutoff=10)
+    if st.IS_LOG:
+        iw.create_dir(st.DIR_LOG)
+        logging.basicConfig(filename=st.DIR_LOG, format='%(message)s', level=logging.INFO)
+
+    run_eval(lang="e", predict_file="results/anserini/en-rm3+bm25.txt", cutoff=10)
+    # run_eval(lang="e", predict_file="results/elastic_search/en-bm25.txt", cutoff=10)
+    # run_eval(lang="j", predict_file="results/anserini/ja-bm25.txt", cutoff=10)
+    # run_eval(lang="j", predict_file="results/elastic_search/ja-bm25.txt", cutoff=10)
 
     iw.print_status("Done")
 

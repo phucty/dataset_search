@@ -14,3 +14,5 @@ EVAL_LIMIT = 1000
 REL_LEVEL_NUM = 3
 EVAL_REF_LEVEL = [i for i in range(1, REL_LEVEL_NUM)]
 
+IS_LOG = False
+

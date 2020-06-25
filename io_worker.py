@@ -1,4 +1,11 @@
 import logging
+import os
+
+
+def create_dir(file_dir):
+    folder_dir = os.path.dirname(file_dir)
+    if not os.path.exists(folder_dir):
+        os.makedirs(folder_dir)
 
 
 def print_status(message, is_screen=True, is_log=True):
